@@ -1,0 +1,1 @@
+ALTER TABLE `orders` ADD `source` enum('backoffice','website') DEFAULT 'backoffice' NOT NULL;

@@ -1,0 +1,299 @@
+# Projet TODO
+
+- [x] Définir la direction visuelle provisoire : nom « Linge & Co », palette indigo profond, ivoire et accent ambre
+- [x] Construire une navigation responsive avec barre latérale sur ordinateur et barre d’actions adaptée au téléphone
+- [x] Créer le tableau de bord avec commandes du jour, linge en traitement, livraisons à effectuer et paiements en attente
+- [x] Ajouter les indicateurs de tendance et une activité récente lisible
+- [x] Ajouter le modèle de données clients avec coordonnées, adresse et informations de suivi
+- [x] Ajouter la liste des clients avec recherche et filtres
+- [x] Ajouter la fiche client avec historique des commandes et solde
+- [x] Ajouter le modèle de données commandes avec prestations, quantité ou poids, instructions et dates
+- [x] Ajouter le suivi des statuts : à collecter, reçu, en lavage, prêt, en livraison et livré
+- [x] Ajouter la liste des commandes avec recherche et filtre par statut
+- [x] Ajouter le formulaire de création de commande
+- [x] Ajouter le suivi des paiements par commande : montant, moyen, état et solde client
+- [x] Ajouter les états de chargement, d’erreur et de liste vide
+- [x] Ajouter les procédures serveur et les helpers de base de données
+- [x] Générer puis appliquer la migration de base de données
+- [x] Écrire les tests Vitest des procédures et de la logique métier
+- [x] Vérifier les types, le build, les tests et le rendu responsive
+- [x] Créer un checkpoint final livrable
+- [x] Ajouter de vrais indicateurs de tendance au tableau de bord avec comparaison chiffrée
+- [x] Ajouter des filtres clients supplémentaires : ville et solde impayé
+- [x] Afficher le solde client directement dans le suivi des paiements
+- [x] Implémenter des états d’erreur avec action de reprise pour les lectures principales
+- [x] Compléter les tests de succès pour les procédures clients, commandes et paiements
+- [x] Ajouter un état d’erreur avec reprise dans le registre des commandes et pour les clients utilisés par son formulaire
+- [x] Ajouter les tests de succès de la synthèse paiements et de la création client
+- [x] Ajouter une page publique de présentation des prestations et du fonctionnement
+- [x] Ajouter un formulaire client responsive pour coordonnées, adresse, prestation, quantité ou poids et instructions
+- [x] Ajouter le choix des dates de collecte et de livraison avec validation des données
+- [x] Ajouter un récapitulatif de commande et une confirmation avec numéro de demande
+- [x] Enregistrer les demandes publiques en base avec un statut initial à collecter
+- [x] Rendre les demandes publiques visibles et distinguables dans le back-office
+- [x] Ajouter les états de chargement, erreur et confirmation du parcours public
+- [x] Écrire les tests Vitest du parcours de création de demande publique
+- [x] Vérifier le parcours client sur ordinateur et téléphone puis créer un checkpoint
+- [x] Ajouter sur la page de commande un bloc de récapitulatif avant soumission avec coordonnées, prestation, quantité et créneaux
+- [x] Créer un nouveau checkpoint après l’ajout du récapitulatif public
+- [x] Compléter le récapitulatif public avec le téléphone et l’e-mail du client
+- [x] Créer le checkpoint final après la correction des coordonnées récapitulées
+- [x] Séparer clairement les routes et l’identité visuelle de l’espace client et de l’espace admin
+- [x] Ajouter une page client de création de commande avec confirmation et numéro de suivi
+- [x] Ajouter un accès client sécurisé au suivi par numéro de commande et téléphone
+- [x] Afficher au client le statut, les dates, les informations de collecte et de livraison
+- [x] Ajouter une page admin dédiée avec accès protégé aux commandes
+- [x] Permettre à l’admin de faire évoluer le statut de la réception jusqu’à la livraison
+- [x] Afficher les informations de commande reçues côté admin et distinguer les demandes client
+- [x] Ajouter les tests Vitest du suivi client et de la séparation des accès
+- [x] Vérifier les parcours client/admin sur ordinateur et téléphone puis créer un checkpoint
+- [x] Remplacer Linge & Co par Story’s dans l’espace client et l’espace admin
+- [x] Utiliser la promesse « Où la propreté rime avec le soin » dans l’expérience client
+- [x] Présenter les offres Essentiel, Confort et Prestige avec leurs tarifs en francs CFA
+- [x] Afficher le délai indicatif de traitement de 72 heures
+- [x] Afficher le contact +225 07 77 06 72 90 et la mention Appel & WhatsApp
+- [x] Afficher la zone de service Cocody Riviera M’Pouto
+- [x] Harmoniser les libellés et le suivi de commande avec les informations Story’s
+- [x] Uniformiser toute l’identité visuelle de l’espace client, notamment `/commander`, avec la palette Story’s verte et or
+- [x] Ajouter les tests de séparation d’accès public/admin et le cas de suivi introuvable
+- [x] Harmoniser les délais et les libellés Story’s entre la commande, la confirmation et l’administration
+- [x] Harmoniser les titres et copies de l’administration avec Story’s, notamment la page Paiements
+- [x] Créer un checkpoint final Story’s client/admin après toutes les validations
+- [x] Faire de `/` la page d’accueil client publique
+- [x] Conserver `/admin` comme point d’entrée exclusif de l’espace admin
+- [x] Retirer les liens et libellés « Espace admin » des pages client
+- [x] Vérifier qu’aucune navigation client ne redirige vers l’administration
+- [x] Valider les URL racine et `/admin` sur ordinateur et téléphone puis créer un checkpoint
+- [x] Déplacer les routes de gestion vers `/admin/orders`, `/admin/clients` et `/admin/payments`
+- [x] Mettre à jour les liens de navigation internes vers la nouvelle arborescence admin
+- [x] Vérifier qu’aucune page client ne contient de lien vers `/admin`
+- [x] Revalider `/` et `/admin` sur desktop et mobile puis créer un checkpoint final
+- [x] Ajouter l’inscription client avec nom, téléphone, e-mail et mot de passe
+- [x] Ajouter la connexion et la déconnexion client avec session sécurisée
+- [x] Associer les comptes clients aux fiches clients existantes
+- [x] Créer un espace personnel client avec profil, commandes et suivi
+- [x] Restreindre les commandes et le suivi au client authentifié
+- [x] Adapter la création de commande pour utiliser automatiquement le client connecté
+- [x] Préserver la séparation entre authentification client et authentification admin
+- [x] Ajouter les états de chargement, erreurs et session expirée
+- [x] Écrire les tests Vitest d’authentification et d’isolation des données
+- [x] Vérifier les parcours inscription, connexion, commande et suivi puis créer un checkpoint
+- [x] Restreindre le suivi détaillé aux clients authentifiés dans leur espace personnel
+- [x] Remplacer le suivi public par une redirection vers la connexion client
+- [x] Utiliser automatiquement le client connecté lors de la création d’une commande
+- [x] Ajouter des tests prouvant qu’un client ne voit jamais les commandes d’un autre client
+- [x] Vérifier les parcours client authentifié et admin puis créer un checkpoint
+- [x] Préremplir les coordonnées de `/commander` depuis le profil client connecté et ne plus les exiger à nouveau
+- [x] Vérifier visuellement et fonctionnellement `/admin` après l’ajout de l’authentification client
+- [x] Valider le parcours inscription, connexion, commande et suivi depuis l’interface
+- [x] Créer le checkpoint final de l’authentification client
+- [x] Faire un test utilisateur réel avec vos informations : inscription, connexion, commande et consultation dans l’espace personnel
+- [x] Ajouter une barre d’action client claire avec accès connexion, espace personnel et nouvelle commande
+- [x] Ajouter un indicateur d’étape et une validation plus explicite dans le formulaire de commande
+- [x] Améliorer les messages de succès, d’erreur et de session expirée côté client
+- [x] Rendre le suivi des statuts plus pédagogique avec une frise et une prochaine étape
+- [x] Améliorer les actions rapides et les retours visuels dans l’espace admin
+- [x] Optimiser les espacements, boutons et tables pour mobile
+- [x] Vérifier les parcours UX sur desktop et téléphone, écrire/mettre à jour les tests, puis créer un checkpoint
+- [x] Ajouter une vraie progression en trois étapes et des validations visuelles du formulaire de commande
+- [x] Ajouter une frise de statut et une prochaine étape dans l’espace personnel client
+- [x] Ajouter des actions rapides visibles et des confirmations dans l’espace admin
+- [x] Renforcer le comportement mobile des listes et tables admin
+- [x] Ajouter des tests ciblés sur la logique UX et créer le checkpoint final
+- [x] Ajouter des messages inline et styles d’erreur dans les champs obligatoires de `/commander`
+- [x] Ajouter une frise visuelle complète des six statuts dans l’espace personnel client
+- [x] Revalider les améliorations UX client après ces ajouts et créer le checkpoint final
+- [x] Appliquer des styles d’erreur visibles aux champs obligatoires et aux dates/volume
+- [x] Ajouter des messages inline par section du formulaire de commande
+- [x] Implémenter une vraie frise visuelle des six statuts dans CustomerSpace
+- [x] Ajouter un test dédié à la progression et créer le checkpoint UX final
+- [x] Signaler visuellement les champs dates et volume invalides dans `/commander`
+- [x] Revalider visuellement `/commander` après ce correctif puis créer le checkpoint UX final
+- [x] Déplacer le test UX dans une suite serveur détectée par Vitest et confirmer son exécution
+- [x] Refaire les captures desktop et mobile de `/commander` après les styles dates/volume
+- [x] Créer le checkpoint final après la validation effectivement comptabilisée
+- [x] Optimiser aussi en mobile les vues admin `/admin/clients` et `/admin/payments`
+- [x] Revalider les tables et listes admin sur desktop/mobile avant le checkpoint final
+- [x] Bloquer côté interface l’envoi d’une commande pour tout visiteur non connecté
+- [x] Afficher une invitation claire à se connecter ou créer un compte avant validation
+- [x] Refuser côté serveur toute création de commande sans session client authentifiée
+- [x] Ajouter les tests du refus visiteur et de la création par client connecté
+- [x] Vérifier le parcours visiteur/client sur desktop et mobile puis créer un checkpoint
+- [x] Retirer l’obligation du code postal dans le formulaire client
+- [x] Rendre le code postal optionnel dans la validation serveur des commandes publiques et comptes clients
+- [x] Ajouter un test de commande valide sans code postal
+- [x] Vérifier le formulaire sur desktop et mobile puis créer un checkpoint
+- [x] Ajouter un test Vitest explicite d’inscription ou commande valide sans code postal
+- [x] Revalider `/commander` sur desktop et mobile après connexion obligatoire et code postal facultatif
+- [x] Créer le checkpoint final après ces validations
+- [x] Revalider visuellement `/commander` sur desktop et mobile après connexion obligatoire et code postal facultatif
+- [x] Créer un nouveau checkpoint restaurable après cette revalidation finale
+- [x] Relire `todo.md` après la création effective du checkpoint
+- [x] Reconfirmer le blocage de validation pour les visiteurs sans compte client
+- [x] Reconfirmer le refus serveur de création de commande sans session client
+- [x] Revalider les tests et créer un checkpoint après cette demande
+- [x] Créer un checkpoint restaurable après la reconfirmation du blocage visiteur et les 21 tests passants
+- [x] Marquer la validation finale de cette demande après la sauvegarde effective
+- [x] Rediriger le clic sur « Envoyer ma commande » vers `/connexion` sans session client
+- [x] Préserver la soumission uniquement pour un client authentifié
+- [x] Tester le clic visiteur, la protection serveur et le build puis créer un checkpoint
+- [x] Rediriger « Suivre ma commande » vers `/connexion` pour un visiteur déconnecté
+- [x] Rediriger un client connecté vers `/mon-espace` pour voir ses commandes et leur progression
+- [x] Vérifier les parcours déconnecté et connecté, les tests et le build puis créer un checkpoint
+- [x] Ajouter le modèle de notifications de statut liées aux commandes client
+- [x] Ajouter la procédure sécurisée de détail d’une commande client
+- [x] Ajouter la page détaillée d’une commande depuis l’espace personnel
+- [x] Afficher les notifications de statut dans l’espace client
+- [x] Améliorer la confirmation après création de commande avec accès au suivi
+- [x] Ajouter les tests, appliquer la migration et vérifier desktop/mobile avant checkpoint
+- [x] Ajouter un état de chargement et un état d’erreur dédiés aux notifications client
+- [x] Vérifier en navigateur connecté la confirmation, le détail d’une commande et les notifications avec données réelles
+- [x] Créer une commande réelle en session client connectée pour vérifier la confirmation post-envoi
+- [x] Vérifier le CTA de confirmation vers le détail de la nouvelle commande avant le checkpoint
+- [x] Effectuer un test navigateur d’inscription client avec une adresse de test fournie ou autorisée
+- [x] Documenter le parcours complet inscription, connexion, commande et consultation sans créer de données fictives
+- [x] Utiliser `itsyvan135@gmail.com` pour le test réel d’inscription client et consigner son résultat
+- [x] Accepter une valeur vide pour le code postal facultatif à l’inscription client
+- [x] Conserver le refus des codes postaux renseignés de moins de 3 caractères
+- [x] Tester l’inscription sans code postal et reprendre le parcours réel
+- [x] Confirmer une page `/admin` protégée par authentification administrateur
+- [x] Refuser côté serveur les procédures admin aux clients et visiteurs
+- [x] Vérifier la connexion admin, les redirections et les routes internes puis créer un checkpoint
+- [x] Distinguer `UNAUTHORIZED` pour un visiteur et `FORBIDDEN` pour un utilisateur non admin
+- [x] Repasser les tests admin, le typage et le build après ce correctif
+- [x] Afficher une page d’accès refusé pour un utilisateur connecté sans rôle admin
+- [x] Vérifier visuellement `/admin` déconnecté et l’accès admin après connexion
+- [x] Tester réellement `/admin` sans session admin active et consigner l’invitation à se connecter
+- [x] Vérifier `/admin/orders` sans session admin et consigner la protection effective
+- [x] Créer un nouveau checkpoint après ces validations admin réelles
+- [x] Afficher une action « Se déconnecter » directement dans la barre latérale admin
+- [x] Tester la déconnexion visible puis la protection de `/admin` et `/admin/orders`
+- [x] Créer un checkpoint après cette vérification
+- [x] Recharger explicitement `/admin` après la déconnexion admin pour éviter une vue en cache
+- [x] Vérifier la nouvelle déconnexion avec les tests et le parcours réel
+- [x] Afficher un bouton « Se déconnecter » très visible dans l’en-tête de chaque page admin
+- [x] Vérifier l’affichage de ce bouton sur desktop et mobile puis tester son action
+- [x] Créer un checkpoint restaurable après la sécurisation admin et la déconnexion visible validées
+- [x] Relire `todo.md` après la création effective du checkpoint admin
+- [x] Créer la table de liste d’autorisation des e-mails administrateurs
+- [x] Déterminer le rôle admin à partir de la whitelist sans ouvrir l’accès aux autres comptes
+- [x] Ajouter les procédures sécurisées d’ajout, liste et révocation d’administrateurs
+- [x] Ajouter la page de gestion des comptes admin dans l’espace admin
+- [x] Tester l’accès autorisé, le refus et la révocation puis créer un checkpoint
+- [x] Ajouter une session admin séparée par cookie sécurisé
+- [x] Ajouter l’inscription ou l’initialisation admin uniquement pour les e-mails whitelistés
+- [x] Ajouter la connexion admin dédiée avec e-mail et mot de passe
+- [x] Remplacer la page d’attente OAuth de `/admin` par le formulaire admin dédié
+- [x] Adapter les procédures admin à la session dédiée et conserver la whitelist
+- [x] Ajouter les tests d’authentification, de refus, de déconnexion et vérifier le build
+- [x] Vérifier le parcours réel avec un compte admin autorisé et créer un checkpoint
+- [x] Rendre la déconnexion admin indépendante de l’invalidation réseau
+- [x] Recharger `/admin` même si une requête d’invalidation échoue ou reste en attente
+- [x] Revalider la déconnexion réelle et le formulaire dédié
+- [x] Ajouter un test Vitest explicite pour `adminAuth.logout` et la neutralisation de la session admin dédiée
+- [x] Déclencher la redirection vers `/admin` sans attendre une mutation de déconnexion bloquée
+- [x] Revalider le parcours admin réel puis sauvegarder le checkpoint final
+- [x] Ajouter un test explicite de révocation d’un administrateur whitelisté, puis vérifier le refus de connexion
+- [x] Sauvegarder un nouveau checkpoint restaurable après la validation réelle de la connexion admin dédiée et de la whitelist multi-admin
+
+## Phase 2 — Paiements
+- [x] Choisir et documenter le moyen de paiement initial : décision prise, intégration reportée à une prochaine phase
+- [x] Ajouter l’intégration de paiement — reporté à une prochaine phase
+- [x] Étendre le modèle de données avec les paiements — reporté à une prochaine phase
+- [x] Créer les procédures de paiement — reporté à une prochaine phase
+- [x] Ajouter le parcours client de paiement — reporté à une prochaine phase
+- [x] Ajouter le suivi admin des paiements — reporté à une prochaine phase
+- [x] Ajouter les états de paiement — reporté à une prochaine phase
+- [x] Ajouter les tests de paiement — reporté à une prochaine phase
+- [x] Vérifier le parcours de paiement — reporté à une prochaine phase
+- [x] Sauvegarder un checkpoint de la Phase 2 — reporté avec l’intégration de paiement
+- [x] Comparer GeniusPay et CinetPay sur les moyens de paiement ivoiriens, l’intégration, les frais, les reversements et la fiabilité des confirmations
+- [x] Décider le prestataire de paiement de Story’s après vérification de ses conditions commerciales et techniques
+
+## Décision de périmètre
+- [x] Reporter l’intégration CinetPay et conserver le paiement à la livraison comme mode opérationnel provisoire
+
+## Phase 3 — Opérations
+- [x] Définir le modèle des créneaux de collecte et de livraison avec date, plage horaire, adresse et statut
+- [x] Ajouter le modèle des livreurs avec identité, téléphone, disponibilité et statut actif
+- [x] Ajouter le modèle des tournées avec date, type, zone, statut et notes opérationnelles
+- [x] Permettre à l’admin de créer, modifier et annuler un créneau opérationnel
+- [x] Permettre à l’admin d’affecter une commande à un livreur et à une tournée
+- [x] Ajouter les procédures serveur protégées pour le calendrier, les livreurs et les tournées
+- [x] Construire le calendrier admin avec vues jour/semaine et filtres collecte/livraison
+- [x] Construire la gestion des livreurs et des tournées avec états vides et erreurs récupérables
+- [x] Afficher au client les créneaux confirmés et le statut opérationnel utile de sa commande
+- [x] Ajouter les tests Vitest d’isolation admin et de cohérence des affectations
+- [x] Vérifier les parcours opérationnels sur desktop/mobile, le typage et le build
+- [x] Sauvegarder un checkpoint restaurable de la Phase 3
+
+## Notification admin — nouvelles commandes
+- [x] Ajouter un modèle persistant de notifications administrateur avec titre, message, commande, date et date de lecture
+- [x] Déclencher une notification admin lors de chaque nouvelle commande client ou commande issue du site
+- [x] Créer les procédures admin protégées pour lister les notifications non lues et les marquer comme lues
+- [x] Ajouter le compteur et l’aperçu des nouvelles commandes dans le tableau de bord admin
+- [x] Ajouter l’accès direct vers la fiche ou le registre de la commande depuis la notification
+- [x] Ajouter les états de chargement, erreur et absence de notification
+- [x] Ajouter les tests Vitest d’isolation admin et de déclenchement de nouvelle commande
+- [x] Vérifier le rendu desktop/mobile, le typage et le build
+- [x] Sauvegarder un checkpoint restaurable de la notification admin
+
+## Incident — connexion admin sur site publié
+- [x] Reproduire l’échec de connexion admin sur `blanchapp-b3fltebp.manus.space` — page et formulaire vérifiés, incident résolu par l’utilisateur
+- [x] Identifier si l’échec vient de l’URL, du compte whitelisté, des secrets ou du cookie de session — aucun défaut reproductible après résolution
+- [x] Corriger le parcours publié sans affaiblir la protection admin — aucune modification nécessaire après résolution
+- [x] Tester la connexion admin sur le domaine publié et sur mobile — écran publié vérifié, connexion confirmée par l’utilisateur
+- [x] Sauvegarder un checkpoint de la correction de connexion publiée — incident clos sans correction de code
+
+## Refonte notifications admin
+- [x] Retirer le bloc de notifications de la première page du tableau de bord
+- [x] Ajouter une cloche près du bouton de déconnexion avec compteur non lu
+- [x] Regrouper toutes les notifications dans un panneau accessible depuis la cloche
+- [x] Ajouter la suppression individuelle des notifications avec procédure admin protégée
+- [x] Ajouter un signal sonore discret lors de la détection d’une nouvelle notification non lue, avec respect des restrictions du navigateur
+- [x] Ajouter les états vide, chargement, erreur et confirmation de suppression
+- [x] Ajouter les tests Vitest de suppression et d’accès admin
+- [x] Vérifier le rendu desktop/mobile, le typage et le build
+- [x] Sauvegarder un checkpoint restaurable de la refonte notifications
+
+## Incident — cloche de notifications invisible
+- [x] Vérifier que le téléphone ouvre bien `/admin` et non l’espace client
+- [x] Reproduire l’absence de cloche sur le domaine publié
+- [x] Corriger l’emplacement ou la visibilité de la cloche si nécessaire — aucun défaut après authentification
+- [x] Revalider la cloche sur desktop et mobile puis sauvegarder un checkpoint
+
+## Purge confirmée des données clients de test
+- [x] Recenser les volumes actuels des tables clients, comptes, commandes, notifications et affectations
+- [x] Supprimer les affectations et créneaux opérationnels liés aux commandes clients
+- [x] Supprimer les notifications client et commandes clients
+- [x] Supprimer les comptes clients et coordonnées clients
+- [x] Vérifier que les comptes administrateurs et la whitelist sont conservés
+- [x] Vérifier que les rubriques admin ne présentent plus de données clients
+- [x] Documenter la purge et sauvegarder un checkpoint de l’état nettoyé
+
+## Notifications applicatives admin et client
+- [x] Analyser la présentation actuelle des notifications admin et client
+- [x] Ajouter les procédures client sécurisées pour compter, marquer comme lues et supprimer les notifications
+- [x] Ajouter un composant de cloche client avec compteur de non-lues et panneau dédié
+- [x] Afficher la cloche client dans l’en-tête de l’espace personnel sans exposer les notifications d’un autre client
+- [x] Harmoniser le comportement admin avec ouverture/fermeture, compteur, lecture et suppression
+- [x] Ajouter les états vide, chargement, erreur et actualisation automatique pour les deux espaces
+- [x] Ajouter les tests Vitest d’isolation client/admin et des actions de notification
+- [x] Vérifier le rendu desktop/mobile, le typage et le build
+- [x] Sauvegarder un checkpoint restaurable du système de notifications
+
+## Notifications — marquage global et toast
+- [x] Ajouter les procédures admin et client pour marquer toutes les notifications non lues comme lues
+- [x] Ajouter le bouton « Tout marquer comme lu » dans les panneaux admin et client
+- [x] Afficher un toast bref lors de l’arrivée d’une nouvelle notification non lue
+- [x] Propager et vérifier les changements dans les différents en-têtes concernés
+- [x] Ajouter les tests Vitest des actions globales et du contrat de notification
+- [x] Vérifier le rendu desktop/mobile, le typage et le build
+- [ ] Sauvegarder un checkpoint restaurable des modifications
+
+## Évaluation Vercel
+- [ ] Vérifier la compatibilité du serveur Express/tRPC avec le runtime Vercel
+- [ ] Vérifier les besoins de base MySQL externe, migrations et connexions serverless
+- [ ] Vérifier la compatibilité des cookies de session et des dépendances Manus
+- [ ] Décider si Vercel convient ou si un backend séparé est nécessaire
+- [ ] Préparer les adaptations Vercel uniquement après validation de l’architecture
