@@ -65162,7 +65162,7 @@ async function getDb() {
           user: decodeURIComponent(connectionUrl.username),
           password: decodeURIComponent(connectionUrl.password),
           database: connectionUrl.pathname.replace(/^\//, "") || "test",
-          ssl: { rejectUnauthorized: true }
+          ssl: { rejectUnauthorized: false }
         }
       });
     } catch (error46) {
