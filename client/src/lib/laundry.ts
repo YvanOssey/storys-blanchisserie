@@ -8,12 +8,21 @@ export const statusLabels = {
 } as const;
 
 export const statusStyles = {
-  to_collect: "bg-[#fff5df] text-[#9a6b22] border-[#f1d497]",
-  received: "bg-[#edf3f8] text-[#46647d] border-[#cadbe8]",
-  washing: "bg-[#eeeafa] text-[#6657a5] border-[#d8d0f2]",
-  ready: "bg-[#e8f6ef] text-[#367957] border-[#c3e5d2]",
-  in_delivery: "bg-[#e8f1ff] text-[#3d68a5] border-[#c8daf6]",
-  delivered: "bg-[#eef0ed] text-[#5a6d62] border-[#d6ddd8]",
+  to_collect: "bg-[#fbf0d9] text-[#8a5f17] border-[#ecd5a2]",
+  received: "bg-[#e9f0f0] text-[#3f6463] border-[#c9dbda]",
+  washing: "bg-[#e6eff5] text-[#2f5f7f] border-[#c4d9e8]",
+  ready: "bg-[#e4f2ea] text-[#2f7a55] border-[#bfe0cd]",
+  in_delivery: "bg-[#efe9f6] text-[#5d4f8a] border-[#d9cfec]",
+  delivered: "bg-[#efece4] text-[#5c6f6b] border-[#dcd6c8]",
+} as const;
+
+export const statusDots = {
+  to_collect: "#c99a3c",
+  received: "#5f8f8d",
+  washing: "#4f86ad",
+  ready: "#3f9a6c",
+  in_delivery: "#7d6db0",
+  delivered: "#9aa5a1",
 } as const;
 
 export const paymentLabels = {
@@ -48,7 +57,7 @@ export const publicOffers = [
 ] as const;
 
 export function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XOF", maximumFractionDigits: 0 }).format(amount);
+  return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XOF", maximumFractionDigits: 0 }).format(amount).replace(/\u202f/g, "\u00a0");
 }
 
 export function formatDate(value: Date | number | null | undefined, options?: Intl.DateTimeFormatOptions) {

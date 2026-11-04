@@ -71,15 +71,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (user.role !== "admin") {
     return (
-      <div className="min-h-screen bg-[#f7f6f1] px-6 py-12 text-[#102033]">
-        <div className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center rounded-[2rem] border border-[#102033]/10 bg-white p-10 text-center shadow-[0_24px_80px_rgba(16,32,51,0.10)]">
-          <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fff5df] text-[#b3863d] shadow-sm">
+      <div className="min-h-screen bg-paper px-6 py-12 text-ink">
+        <div className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center rounded-none border border-forest/10 bg-white p-10 text-center">
+          <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-none bg-gold-soft text-gold shadow-sm">
             <LockKeyhole className="h-7 w-7" />
           </div>
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#b3863d]">Accès administrateur</p>
-          <h1 className="font-display text-4xl leading-tight">Espace réservé.</h1>
-          <p className="mt-4 text-sm leading-6 text-[#5e6c7d]">Ce compte ne possède pas les droits nécessaires pour accéder à la gestion Story’s.</p>
-          <Link href="/" className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-[#102033] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#1c344f]">Retour à l’espace client</Link>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-gold">Accès administrateur</p>
+          <h1 className="display-md">Espace réservé.</h1>
+          <p className="mt-4 text-sm leading-6 text-ink-muted">Ce compte ne possède pas les droits nécessaires pour accéder à la gestion Story’s.</p>
+          <Link href="/" className="mt-8 inline-flex w-full items-center justify-center rounded-none bg-forest px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-forest-deep">Retour à l’espace client</Link>
         </div>
       </div>
     );
@@ -133,15 +133,15 @@ function DashboardLayoutContent({ children, setSidebarWidth }: DashboardLayoutCo
   return (
     <>
       <div className="relative" ref={sidebarRef}>
-        <Sidebar collapsible="icon" className="border-r-0 bg-[#102033] text-white" disableTransition={isResizing}>
+        <Sidebar collapsible="icon" className="border-r-0 bg-sidebar text-sidebar-foreground [&_[data-sidebar=sidebar]]:bg-sidebar" disableTransition={isResizing}>
           <SidebarHeader className="h-auto border-b border-white/10 px-4 py-5">
             <div className="flex items-center gap-3">
-              <button onClick={toggleSidebar} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f4c46d] text-[#102033] transition-colors hover:bg-[#f8d48d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f4c46d]" aria-label="Réduire la navigation">
+              <button onClick={toggleSidebar} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white/10 text-gold-bright transition-colors hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright" aria-label="Réduire la navigation">
                 <PanelLeft className="h-4 w-4" />
               </button>
               {!isCollapsed && (
                 <div className="min-w-0">
-                  <p className="font-display text-xl leading-none text-white">Story’s</p>
+                  <p className="font-display text-[1.35rem] leading-none text-white">Story’s</p>
                   <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/45">Lavage & soins à domicile</p>
                 </div>
               )}
@@ -156,8 +156,8 @@ function DashboardLayoutContent({ children, setSidebarWidth }: DashboardLayoutCo
                 const isActive = location === item.path;
                 return (
                   <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton isActive={isActive} onClick={() => setLocation(item.path)} tooltip={item.label} className={`h-11 rounded-xl font-medium transition-all ${isActive ? "bg-white text-[#102033] shadow-lg shadow-black/10 hover:bg-white" : "text-white/65 hover:bg-white/10 hover:text-white"}`}>
-                      <Icon className={`h-[18px] w-[18px] ${isActive ? "text-[#b3863d]" : ""}`} />
+                    <SidebarMenuButton isActive={isActive} onClick={() => setLocation(item.path)} tooltip={item.label} className={`relative h-11 rounded-md font-medium transition-colors ${isActive ? "bg-white/[0.08] text-white before:absolute before:left-0 before:top-2.5 before:bottom-2.5 before:w-[3px] before:rounded-full before:bg-gold-bright hover:bg-white/[0.1] hover:text-white" : "text-white/60 hover:bg-white/[0.06] hover:text-white"}`}>
+                      <Icon className={`h-[18px] w-[18px] ${isActive ? "text-gold-bright" : ""}`} />
                       <span>{item.label}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -169,9 +169,9 @@ function DashboardLayoutContent({ children, setSidebarWidth }: DashboardLayoutCo
           <SidebarFooter className="border-t border-white/10 p-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f4c46d] group-data-[collapsible=icon]:justify-center">
+                <button className="flex w-full items-center gap-3 rounded-none px-2 py-2 text-left transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright group-data-[collapsible=icon]:justify-center">
                   <Avatar className="h-9 w-9 shrink-0 border border-white/20 bg-white/10">
-                    <AvatarFallback className="bg-[#f4c46d] text-xs font-bold text-[#102033]">{user?.name?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
+                    <AvatarFallback className="bg-gold-bright text-xs font-bold text-ink">{user?.name?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
                   </Avatar>
                   <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
                     <p className="truncate text-sm font-semibold leading-none text-white">{user?.name || "Utilisateur"}</p>
@@ -190,7 +190,7 @@ function DashboardLayoutContent({ children, setSidebarWidth }: DashboardLayoutCo
             <button
               type="button"
               onClick={() => void logout().then(() => { window.location.assign("/admin"); })}
-              className="mt-2 flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left text-xs font-semibold text-white/55 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f4c46d] group-data-[collapsible=icon]:justify-center"
+              className="mt-2 flex w-full items-center gap-3 rounded-none px-2 py-2 text-left text-xs font-semibold text-white/55 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright group-data-[collapsible=icon]:justify-center"
               aria-label="Se déconnecter"
             >
               <LogOut className="h-4 w-4 shrink-0" />
@@ -198,18 +198,18 @@ function DashboardLayoutContent({ children, setSidebarWidth }: DashboardLayoutCo
             </button>
           </SidebarFooter>
         </Sidebar>
-        <div className={`absolute right-0 top-0 h-full w-1 cursor-col-resize transition-colors hover:bg-[#f4c46d]/50 ${isCollapsed ? "hidden" : ""}`} onMouseDown={() => setIsResizing(true)} style={{ zIndex: 50 }} />
+        <div className={`absolute right-0 top-0 h-full w-1 cursor-col-resize transition-colors hover:bg-gold-bright/50 ${isCollapsed ? "hidden" : ""}`} onMouseDown={() => setIsResizing(true)} style={{ zIndex: 50 }} />
       </div>
 
-      <SidebarInset className="bg-[#f7f6f1]">
-        <div className="flex items-center justify-between gap-4 border-b border-[#102033]/10 bg-white px-4 py-3 sm:px-6 lg:px-10">
-          <p className="hidden text-[10px] font-bold uppercase tracking-[0.2em] text-[#8c969d] sm:block">Session administrateur Story’s</p>
+      <SidebarInset className="bg-paper">
+        <div className="flex items-center justify-between gap-4 border-b border-line bg-paper px-4 py-3 sm:px-6 lg:px-10">
+          <p className="hidden text-[10px] font-bold uppercase tracking-[0.2em] text-ink-faint sm:block">Session administrateur Story’s</p>
           <div className="ml-auto flex items-center gap-2">
             <AdminNotificationBell />
             <button
               type="button"
               onClick={() => void logout().then(() => { window.location.assign("/admin"); })}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#102033]/10 bg-[#102033] px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#1c344f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f4c46d]"
+              className="inline-flex items-center gap-2 rounded-md border border-line-strong bg-transparent px-3 py-2 text-xs font-bold text-ink-muted transition-colors hover:border-forest hover:text-forest focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright"
             >
               <LogOut className="h-3.5 w-3.5" />
               Se déconnecter
@@ -217,15 +217,15 @@ function DashboardLayoutContent({ children, setSidebarWidth }: DashboardLayoutCo
           </div>
         </div>
         {isMobile && (
-          <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-[#102033]/10 bg-[#f7f6f1]/95 px-4 backdrop-blur">
+          <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-line bg-paper/95 px-4 backdrop-blur">
             <div className="flex items-center gap-3">
-              <SidebarTrigger className="h-9 w-9 rounded-xl bg-white text-[#102033] shadow-sm" />
-              <span className="text-sm font-semibold text-[#102033]">{activeMenuItem?.label ?? "Menu"}</span>
+              <SidebarTrigger className="h-9 w-9 rounded-none bg-white text-ink shadow-sm" />
+              <span className="text-sm font-semibold text-ink">{activeMenuItem?.label ?? "Menu"}</span>
             </div>
-            <div className="flex items-center gap-2"><Link href="/admin/orders?new=1" className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#102033] px-3 text-xs font-bold text-white"><Plus className="h-3.5 w-3.5" />Commande</Link><span className="font-display text-lg text-[#102033]">Story’s</span></div>
+            <div className="flex items-center gap-2"><Link href="/admin/orders?new=1" className="inline-flex h-9 items-center gap-1.5 rounded-none bg-forest px-3 text-xs font-bold text-white"><Plus className="h-3.5 w-3.5" />Commande</Link><span className="font-display text-lg text-ink">Story’s</span></div>
           </div>
         )}
-        <main className="min-h-screen p-4 sm:p-6 lg:p-10">{children}</main>
+        <main className="min-h-screen px-4 py-6 sm:p-6 lg:px-12 lg:py-10">{children}</main>
       </SidebarInset>
     </>
   );

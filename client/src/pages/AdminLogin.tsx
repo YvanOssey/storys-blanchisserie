@@ -1,11 +1,12 @@
 import { FormEvent, useState } from "react";
 import { Link } from "wouter";
-import { LockKeyhole, ShieldCheck, LoaderCircle } from "lucide-react";
+import { ShieldCheck, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { trpc } from "@/lib/trpc";
+import { Logo } from "@/components/Brand";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -25,6 +26,26 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f6f1] px-6 py-12 text-[#102033]"><div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center rounded-[2rem] border border-[#102033]/10 bg-white p-8 shadow-[0_24px_80px_rgba(16,32,51,0.10)] sm:p-10"><div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#102033] text-[#f4c46d] shadow-lg"><LockKeyhole className="h-7 w-7" /></div><p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#b3863d]">Administration Story’s</p><h1 className="font-display text-4xl leading-tight">Connexion admin</h1><p className="mt-4 text-sm leading-6 text-[#5e6c7d]">Utilisez l’adresse e-mail autorisée et le mot de passe remis par le responsable de Story’s.</p><form onSubmit={submit} className="mt-8 space-y-5"><div className="space-y-2"><Label htmlFor="admin-login-email">E-mail administrateur</Label><Input id="admin-login-email" type="email" autoComplete="username" value={email} onChange={event => setEmail(event.target.value)} placeholder="vous@exemple.com" className="h-12 rounded-xl bg-[#faf9f6]" /></div><div className="space-y-2"><Label htmlFor="admin-login-password">Mot de passe</Label><Input id="admin-login-password" type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)} placeholder="8 caractères minimum" className="h-12 rounded-xl bg-[#faf9f6]" /></div><Button type="submit" disabled={login.isPending} className="h-12 w-full rounded-xl bg-[#102033] font-bold text-white hover:bg-[#1c344f]">{login.isPending ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}{login.isPending ? "Connexion…" : "Se connecter à l’administration"}</Button></form><Link href="/" className="mt-6 block text-center text-sm font-semibold text-[#9a6b22] underline decoration-[#f4c46d] underline-offset-4">Retour à l’espace client</Link></div></div>
+    <div className="grid min-h-screen bg-paper text-ink lg:grid-cols-[1fr_1fr]">
+      <aside className="band-forest hidden flex-col justify-between p-12 text-white lg:flex">
+        <Logo tone="light" />
+        <div><p className="eyebrow text-gold-bright">Atelier · Gestion</p><h1 className="mt-5 display-lg max-w-md">Chaque commande, <span className="accent-word">au bon tempo.</span></h1><p className="mt-5 max-w-sm text-sm leading-6 text-white/60">Commandes, clients, paiements et tournées : l’activité de Story’s au même endroit.</p></div>
+        <p className="text-xs text-white/45">Accès réservé aux administrateurs autorisés.</p>
+      </aside>
+      <main className="flex flex-col px-5 py-6 sm:px-10">
+        <span className="lg:hidden"><Logo /></span>
+        <div className="mx-auto my-auto w-full max-w-sm py-12">
+          <p className="eyebrow text-gold">Administration Story’s</p>
+          <h2 className="mt-4 display-md">Connexion admin</h2>
+          <p className="mt-3 text-sm leading-6 text-ink-muted">Utilisez l’adresse e-mail autorisée et le mot de passe remis par le responsable de Story’s.</p>
+          <form onSubmit={submit} className="mt-9 space-y-5">
+            <div className="space-y-2"><Label htmlFor="admin-login-email" className="text-[13px] font-semibold">E-mail administrateur</Label><Input id="admin-login-email" type="email" autoComplete="username" value={email} onChange={event => setEmail(event.target.value)} placeholder="vous@exemple.com" className="field" /></div>
+            <div className="space-y-2"><Label htmlFor="admin-login-password" className="text-[13px] font-semibold">Mot de passe</Label><Input id="admin-login-password" type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)} placeholder="8 caractères minimum" className="field" /></div>
+            <Button type="submit" disabled={login.isPending} className="h-12 w-full rounded-full bg-forest font-bold text-white hover:bg-forest-deep">{login.isPending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}{login.isPending ? "Connexion…" : "Se connecter"}</Button>
+          </form>
+          <Link href="/" className="mt-8 block text-center text-sm font-semibold text-ink-muted hover:text-forest">← Retour à l’espace client</Link>
+        </div>
+      </main>
+    </div>
   );
 }
