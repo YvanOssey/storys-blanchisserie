@@ -1,25 +1,73 @@
 import { Link, useLocation } from "wouter";
-import { ArrowRight, CalendarDays, CheckCircle2, Clock3, LogOut, Package, UserRound } from "lucide-react";
+import { ArrowRight, ChevronRight, LogOut, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { QueryError } from "@/components/QueryState";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import CustomerNotificationBell from "@/components/CustomerNotificationBell";
-import { customerStatusSteps, formatDate, formatCurrency, getCustomerNextStep, statusLabels, statusStyles } from "@/lib/laundry";
+import { formatDate, formatCurrency, getCustomerNextStep } from "@/lib/laundry";
+import { CONTACT_PHONE, PageLoader, SiteHeader, StatusBadge, StatusTrack, WHATSAPP_URL } from "@/components/Brand";
 
 export default function CustomerSpace() {
   const [, navigate] = useLocation();
   const profile = trpc.customer.profile.useQuery();
   const orders = trpc.customer.orders.useQuery();
   const logout = trpc.customerAuth.logout.useMutation({ onSuccess: () => { toast.success("Vous êtes déconnecté."); navigate("/"); } });
-  if (profile.isLoading || orders.isLoading) return <div className="flex min-h-screen items-center justify-center bg-[#f7f3ec] text-sm text-[#6f8580]">Ouverture de votre espace…</div>;
-  if (profile.isError || orders.isError) return <div className="min-h-screen bg-[#f7f3ec] px-5 py-10"><div className="mx-auto max-w-xl"><QueryError onRetry={() => { void profile.refetch(); void orders.refetch(); }} message="Votre session client a expiré ou n’a pas pu être chargée." /><div className="mt-5 text-center"><Link href="/connexion" className="font-semibold text-[#00514d]">Se connecter à nouveau</Link></div></div></div>;
+  if (profile.isLoading || orders.isLoading) return <PageLoader label="Ouverture de votre espace…" />;
+  if (profile.isError || orders.isError) return <div className="min-h-screen bg-paper"><SiteHeader /><div className="mx-auto max-w-xl px-5 py-16"><QueryError onRetry={() => { void profile.refetch(); void orders.refetch(); }} message="Votre session client a expiré ou n’a pas pu être chargée." /><div className="mt-6 text-center"><Link href="/connexion" className="font-bold text-forest underline decoration-gold decoration-2 underline-offset-4">Se connecter à nouveau</Link></div></div></div>;
   const customer = profile.data;
   const customerOrders = orders.data ?? [];
-  return <div className="min-h-screen bg-[#f7f3ec] text-[#123c3a]"><header className="border-b border-[#00514d]/10 bg-white/80"><div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8"><Link href="/" className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#00514d] text-[#e8c875] shadow-md"><img src="logo.PNG" alt="Story’s" className="h-8 w-8 object-contain" /></span><span><span className="block font-display text-xl leading-none">Story’s</span><span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.2em] text-[#99772a]">Lavage & soins à domicile</span></span></Link><div className="flex items-center gap-1"><CustomerNotificationBell /><Button variant="ghost" onClick={() => logout.mutate()} className="rounded-xl text-[#58716c] hover:bg-[#f7f3ec]"><LogOut className="mr-2 h-4 w-4" />Déconnexion</Button></div></div></header><main className="mx-auto max-w-6xl px-5 py-10 sm:px-8"><div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><p className="eyebrow text-[#99772a]">Espace personnel</p><h1 className="mt-2 font-display text-4xl text-[#00514d] sm:text-5xl">Bonjour {customer?.fullName?.split(" ")[0] || "à vous"}.</h1><p className="mt-3 text-sm leading-6 text-[#647180]">Retrouvez vos demandes et l’avancement de votre linge au même endroit.</p></div><Button asChild className="rounded-xl bg-[#00514d] text-white hover:bg-[#123c3a]"><Link href="/commander">Nouvelle commande <ArrowRight className="ml-2 h-4 w-4" /></Link></Button></div><section className="mt-8 grid gap-4 sm:grid-cols-3"><Info icon={Package} label="Commandes" value={String(customerOrders.length)} /><Info icon={Clock3} label="En traitement" value={String(customerOrders.filter(order => ["received", "washing"].includes(order.status)).length)} /><Info icon={CheckCircle2} label="Livrées" value={String(customerOrders.filter(order => order.status === "delivered").length)} /></section><section className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_0.6fr]"><div className="rounded-2xl bg-white p-5 shadow-[0_18px_45px_rgba(0,81,77,0.06)] sm:p-7"><div className="flex items-center justify-between gap-4"><div><p className="eyebrow text-[#99772a]">Votre historique</p><h2 className="mt-2 font-display text-2xl text-[#00514d]">Mes commandes</h2></div><span className="rounded-full bg-[#f7f3ec] px-3 py-1 text-xs font-bold text-[#6f8580]">{customerOrders.length}</span></div>{customerOrders.length ? <div className="mt-6 space-y-3">{customerOrders.map(order => <div key={order.id} className="flex flex-wrap items-center gap-4 rounded-xl border border-[#00514d]/10 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e8f6ef] text-[#367957]"><Package className="h-4 w-4" /></div><div className="min-w-[150px] flex-1"><Link href={`/mon-espace/commandes/${order.id}`} className="text-sm font-bold text-[#00514d] hover:underline">{order.orderNumber}</Link><p className="mt-1 text-xs text-[#6f8580]">{order.service} · Collecte {formatDate(order.pickupAt)}</p></div><div className="text-right"><p className="text-sm font-bold text-[#123c3a]">{formatCurrency(order.amountCents)}</p><Badge variant="outline" className={`mt-1 rounded-full px-2.5 py-1 text-[10px] ${statusStyles[order.status as keyof typeof statusStyles]}`}>{statusLabels[order.status as keyof typeof statusLabels]}</Badge><p className="mt-2 w-full text-xs text-[#6f8580]">Prochaine étape : <span className="font-semibold text-[#356661]">{getCustomerNextStep(order.status)}</span></p></div><StatusTimeline status={order.status} /></div>)}</div> : <div className="mt-6 rounded-xl border border-dashed border-[#00514d]/20 px-6 py-12 text-center"><Package className="mx-auto h-7 w-7 text-[#99772a]" /><p className="mt-3 text-sm text-[#6f8580]">Votre première commande apparaîtra ici.</p><Button asChild className="mt-5 rounded-xl bg-[#00514d] text-white hover:bg-[#123c3a]"><Link href="/commander">Passer une commande</Link></Button></div>}</div><aside className="rounded-2xl bg-[#00514d] p-6 text-white"><p className="eyebrow text-[#e8c875]">Mes informations</p><h2 className="mt-2 font-display text-2xl">Votre profil</h2><div className="mt-6 space-y-4 text-sm text-white/75"><p className="flex gap-3"><UserRound className="h-4 w-4 shrink-0 text-[#e8c875]" />{customer?.fullName}</p><p className="flex gap-3"><span className="w-4 shrink-0 text-[#e8c875]">@</span>{customer?.email || "E-mail non renseigné"}</p><p className="flex gap-3"><CalendarDays className="h-4 w-4 shrink-0 text-[#e8c875]" />Client depuis {customer?.createdAt ? formatDate(customer.createdAt) : "aujourd’hui"}</p></div><p className="mt-8 border-t border-white/10 pt-5 text-xs leading-5 text-white/55">Besoin d’aide ? Appelez ou écrivez sur WhatsApp au +225 07 77 06 72 90.</p></aside></section></main></div>;
+  const inProgress = customerOrders.filter(order => order.status !== "delivered");
+  const stats = [
+    { label: "Commandes", value: customerOrders.length },
+    { label: "En traitement", value: customerOrders.filter(order => ["received", "washing"].includes(order.status)).length },
+    { label: "Livrées", value: customerOrders.filter(order => order.status === "delivered").length },
+  ];
+
+  return <div className="min-h-screen bg-paper text-ink">
+    <SiteHeader actions={<>
+      <CustomerNotificationBell />
+      <Button variant="ghost" onClick={() => logout.mutate()} className="h-9 text-paper hover:bg-paper/10 hover:text-gold-bright"><LogOut className="h-4 w-4" /><span className="hidden sm:inline">Déconnexion</span></Button>
+    </>} />
+    <main className="mx-auto max-w-6xl px-5 pb-20 pt-10 sm:px-8 md:pt-14">
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div>
+          <p className="eyebrow text-gold">Espace personnel</p>
+          <h1 className="mt-4 display-lg">Bonjour <span className="accent-word">{customer?.fullName?.split(" ")[0] || "à vous"}.</span></h1>
+          <p className="mt-3 text-sm leading-6 text-ink-muted">{inProgress.length ? `${inProgress.length} commande${inProgress.length > 1 ? "s" : ""} en cours chez Story’s.` : "Retrouvez vos demandes et l’avancement de votre linge au même endroit."}</p>
+        </div>
+        <Button asChild className="h-12 rounded-full bg-forest px-6 font-bold text-white hover:bg-forest-deep"><Link href="/commander">Nouvelle commande <ArrowRight className="h-4 w-4" /></Link></Button>
+      </div>
+
+      <dl className="mt-10 grid grid-cols-3 border-y border-line">{stats.map((stat, index) => <div key={stat.label} className={`py-5 ${index ? "border-l border-line pl-4 sm:pl-8" : ""}`}><dt className="text-xs text-ink-muted">{stat.label}</dt><dd className="mt-1 figure text-5xl text-forest tabular">{stat.value}</dd></div>)}</dl>
+
+      <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_300px]">
+        <section>
+          <div className="flex items-baseline justify-between gap-4"><h2 className="display-md">Mes commandes</h2><span className="text-sm text-ink-faint tabular">{customerOrders.length}</span></div>
+          {customerOrders.length ? <ul className="mt-6 space-y-4">{customerOrders.map(order => <li key={order.id}>
+            <Link href={`/mon-espace/commandes/${order.id}`} className="card-interactive group block border border-line bg-paper p-5 sm:p-6">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0"><p className="font-display text-xl text-ink">{order.orderNumber}</p><p className="mt-1 text-xs text-ink-muted">{order.service} · Collecte {formatDate(order.pickupAt)}</p></div>
+                <div className="flex items-center gap-3"><span className="text-sm font-bold text-ink tabular">{formatCurrency(order.amountCents)}</span><StatusBadge status={order.status} /></div>
+              </div>
+              <div className="mt-6"><StatusTrack status={order.status} size="sm" /></div>
+              <div className="mt-5 flex items-center justify-between border-t border-line pt-4 text-xs"><p className="text-ink-muted">Prochaine étape : <span className="font-semibold text-forest">{getCustomerNextStep(order.status)}</span></p><ChevronRight className="h-4 w-4 text-ink-faint transition-transform group-hover:translate-x-0.5 group-hover:text-forest" /></div>
+            </Link>
+          </li>)}</ul> : <div className="mt-6 rounded-none border border-dashed border-line-strong px-6 py-16 text-center"><Package className="mx-auto h-7 w-7 text-gold" /><p className="mt-4 font-display text-xl text-ink">Aucune commande pour l’instant</p><p className="mt-2 text-sm text-ink-muted">Votre première commande apparaîtra ici, avec son suivi.</p><Button asChild className="mt-6 h-11 rounded-full bg-forest text-white hover:bg-forest-deep"><Link href="/commander">Passer une commande</Link></Button></div>}
+        </section>
+
+        <aside className="space-y-8">
+          <div>
+            <p className="eyebrow text-gold">Mes informations</p>
+            <dl className="mt-4 divide-y divide-line border-y border-line text-sm">
+              <div className="py-3"><dt className="text-xs text-ink-faint">Nom</dt><dd className="mt-0.5 font-semibold">{customer?.fullName}</dd></div>
+              <div className="py-3"><dt className="text-xs text-ink-faint">E-mail</dt><dd className="mt-0.5 break-words font-semibold">{customer?.email || "Non renseigné"}</dd></div>
+              <div className="py-3"><dt className="text-xs text-ink-faint">Client depuis</dt><dd className="mt-0.5 font-semibold">{customer?.createdAt ? formatDate(customer.createdAt, { day: "numeric", month: "long", year: "numeric" }) : "aujourd’hui"}</dd></div>
+            </dl>
+          </div>
+          <div className="band-forest rounded-none p-6 text-white"><p className="eyebrow text-gold-bright">Besoin d’aide ?</p><p className="mt-3 font-display text-xl">L’atelier vous répond.</p><a href={WHATSAPP_URL} className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold-bright hover:text-white">{CONTACT_PHONE} <ArrowRight className="h-4 w-4" /></a></div>
+        </aside>
+      </div>
+    </main>
+  </div>;
 }
-
-function StatusTimeline({ status }: { status: string }) { const activeIndex = customerStatusSteps.findIndex(step => step.key === status); return <div className="mt-4 w-full border-t border-[#00514d]/10 pt-4"><div className="grid grid-cols-6 gap-1">{customerStatusSteps.map((step, index) => <div key={step.key} className="text-center"><span className={`mx-auto flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-bold ${index <= activeIndex ? "bg-[#00514d] text-[#e8c875]" : "bg-[#eef2ee] text-[#8aa19a]"}`}>{index < activeIndex ? "✓" : index + 1}</span><span className={`mt-1 block text-[8px] leading-3 sm:text-[10px] ${index === activeIndex ? "font-bold text-[#00514d]" : "text-[#8aa19a]"}`}>{step.label}</span></div>)}</div></div>; }
-
-function Info({ icon: Icon, label, value }: { icon: typeof Package; label: string; value: string }) { return <div className="rounded-2xl bg-white p-5 shadow-[0_12px_30px_rgba(0,81,77,0.05)]"><Icon className="h-5 w-5 text-[#99772a]" /><p className="mt-5 text-xs font-bold uppercase tracking-wider text-[#8aa19a]">{label}</p><p className="mt-1 font-display text-3xl text-[#00514d]">{value}</p></div>; }

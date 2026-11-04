@@ -1,21 +1,59 @@
 import { Link, useParams } from "wouter";
-import { ArrowLeft, CalendarDays, CheckCircle2, Clock3, MapPin, Package, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { CalendarDays, Clock3, MapPin, MessageCircle } from "lucide-react";
 import { QueryError } from "@/components/QueryState";
 import { trpc } from "@/lib/trpc";
-import { customerStatusSteps, formatCurrency, formatDate, getCustomerNextStep, statusLabels, statusStyles } from "@/lib/laundry";
+import { formatCurrency, formatDate, getCustomerNextStep } from "@/lib/laundry";
+import { CONTACT_PHONE, PageLoader, SiteHeader, StatusBadge, StatusTrack, WHATSAPP_URL } from "@/components/Brand";
+
+const assignmentLabels: Record<string, string> = { confirmed: "Confirmé", scheduled: "Planifié", completed: "Terminé" };
 
 export default function OrderDetail() {
   const params = useParams<{ id: string }>();
   const orderId = Number(params.id);
   const order = trpc.customer.orderDetail.useQuery({ id: orderId }, { enabled: Number.isInteger(orderId) && orderId > 0 });
   const operations = trpc.customer.orderOperations.useQuery({ orderId }, { enabled: Number.isInteger(orderId) && orderId > 0 });
-  if (order.isLoading) return <div className="flex min-h-screen items-center justify-center bg-[#f7f3ec] text-sm text-[#6f8580]">Ouverture de votre commande…</div>;
-  if (order.isError || !order.data) return <div className="min-h-screen bg-[#f7f3ec] px-5 py-10"><div className="mx-auto max-w-xl"><QueryError message="Cette commande n’est pas disponible dans votre espace." onRetry={() => void order.refetch()} /><div className="mt-5 text-center"><Link href="/mon-espace" className="font-semibold text-[#00514d]">Retour à mes commandes</Link></div></div></div>;
+  if (order.isLoading) return <PageLoader label="Ouverture de votre commande…" />;
+  if (order.isError || !order.data) return <div className="min-h-screen bg-paper"><SiteHeader back={{ href: "/mon-espace", label: "Mes commandes" }} /><div className="mx-auto max-w-xl px-5 py-16"><QueryError message="Cette commande n’est pas disponible dans votre espace." onRetry={() => void order.refetch()} /></div></div>;
   const item = order.data;
-  const activeIndex = customerStatusSteps.findIndex(step => step.key === item.status);
-  return <div className="min-h-screen bg-[#f7f3ec] text-[#123c3a]"><header className="border-b border-[#00514d]/10 bg-white/80"><div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5 sm:px-8"><Link href="/mon-espace" className="flex items-center gap-2 text-sm font-bold text-[#00514d]"><ArrowLeft className="h-4 w-4" />Mes commandes</Link><Link href="/" className="font-display text-xl text-[#00514d]">Story’s</Link></div></header><main className="mx-auto max-w-5xl px-5 py-10 sm:px-8"><div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><p className="eyebrow text-[#99772a]">Détail de la commande</p><h1 className="mt-2 font-display text-4xl text-[#00514d]">{item.orderNumber}</h1><p className="mt-3 text-sm text-[#6f8580]">Créée le {formatDate(item.createdAt, { day: "2-digit", month: "long", year: "numeric" })}</p></div><Badge variant="outline" className={`w-fit rounded-full px-3 py-1.5 text-xs ${statusStyles[item.status as keyof typeof statusStyles]}`}>{statusLabels[item.status as keyof typeof statusLabels]}</Badge></div><section className="mt-8 rounded-2xl bg-white p-5 shadow-[0_18px_45px_rgba(0,81,77,0.06)] sm:p-8"><div className="flex items-center gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#e8f6ef] text-[#00514d]"><Package className="h-5 w-5" /></div><div><p className="text-xs font-bold uppercase tracking-wider text-[#99772a]">Progression</p><p className="mt-1 text-sm text-[#647180]">Prochaine étape : <span className="font-semibold text-[#00514d]">{getCustomerNextStep(item.status)}</span></p></div></div><div className="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-6">{customerStatusSteps.map((step, index) => <div key={step.key} className="text-center"><span className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${index <= activeIndex ? "bg-[#00514d] text-[#e8c875]" : "bg-[#eef2ee] text-[#8aa19a]"}`}>{index < activeIndex ? "✓" : index + 1}</span><span className={`mt-2 block text-[10px] leading-4 sm:text-xs ${index === activeIndex ? "font-bold text-[#00514d]" : "text-[#8aa19a]"}`}>{step.label}</span></div>)}</div></section>{operations.data?.length ? <section className="mt-6 rounded-2xl bg-white p-5 shadow-[0_18px_45px_rgba(0,81,77,0.06)] sm:p-7"><div className="flex items-center gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#fff3d8] text-[#99772a]"><CalendarDays className="h-5 w-5" /></div><div><p className="text-xs font-bold uppercase tracking-wider text-[#99772a]">Organisation confirmée</p><h2 className="mt-1 font-display text-2xl text-[#00514d]">Vos prochains créneaux</h2></div></div><div className="mt-5 grid gap-3 sm:grid-cols-2">{operations.data.map(operation => <div key={operation.assignment.id} className="rounded-xl bg-[#faf9f6] p-4"><div className="flex items-center justify-between gap-3"><p className="text-sm font-bold text-[#00514d]">{operation.assignment.kind === "pickup" ? "Collecte" : "Livraison"}</p><Badge variant="outline" className="border-[#99772a]/30 text-[#99772a]">{operation.assignment.status === "confirmed" ? "Confirmé" : operation.assignment.status === "scheduled" ? "Planifié" : operation.assignment.status === "completed" ? "Terminé" : "En cours"}</Badge></div><p className="mt-2 flex items-center gap-2 text-sm font-semibold text-[#26384a]"><CalendarDays className="h-4 w-4 text-[#99772a]" />{formatDate(operation.assignment.scheduledAt, { weekday: "long", day: "numeric", month: "long" })}</p><p className="mt-1 flex items-center gap-2 text-sm text-[#647180]"><Clock3 className="h-4 w-4 text-[#99772a]" />{new Date(operation.assignment.scheduledAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}</p><p className="mt-1 flex items-start gap-2 text-sm text-[#647180]"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#99772a]" />{operation.assignment.address}</p>{operation.courier && <p className="mt-3 border-t border-[#00514d]/10 pt-3 text-xs font-semibold text-[#356661]">Livreur : {operation.courier.fullName}</p>}</div>)}</div></section> : null}<section className="mt-6 grid gap-6 lg:grid-cols-2"><div className="rounded-2xl bg-white p-5 shadow-[0_18px_45px_rgba(0,81,77,0.06)] sm:p-7"><h2 className="font-display text-2xl text-[#00514d]">Informations</h2><div className="mt-5 grid gap-4 sm:grid-cols-2"><Detail icon={Package} label="Prestation" value={item.service} /><Detail icon={CheckCircle2} label="Montant" value={formatCurrency(item.amountCents)} /><Detail icon={CalendarDays} label="Collecte" value={formatDate(item.pickupAt, { weekday: "short", day: "numeric", month: "long" })} /><Detail icon={CalendarDays} label="Livraison" value={formatDate(item.deliveryAt, { weekday: "short", day: "numeric", month: "long" })} /><Detail icon={Clock3} label="Volume" value={item.itemCount ? `${item.itemCount} pièce${item.itemCount === 1 ? "" : "s"}` : item.weightKg ? `${item.weightKg} kg estimés` : "À préciser"} /></div>{item.instructions && <p className="mt-6 rounded-xl bg-[#faf9f6] p-4 text-sm leading-6 text-[#647180]"><strong className="text-[#356661]">Consignes :</strong> {item.instructions}</p>}</div><div className="rounded-2xl bg-[#00514d] p-6 text-white sm:p-7"><p className="eyebrow text-[#e8c875]">Besoin d’aide ?</p><h2 className="mt-2 font-display text-2xl">Nous restons disponibles.</h2><p className="mt-4 text-sm leading-6 text-white/70">Story’s vous confirme le tarif et le créneau par téléphone ou WhatsApp.</p><a href="https://wa.me/2250777067290" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#e8c875] px-4 py-3 text-sm font-bold text-[#123c3a]"><Phone className="h-4 w-4" />+225 07 77 06 72 90</a><p className="mt-5 border-t border-white/10 pt-4 text-xs leading-5 text-white/55">Délai indicatif de traitement : 72 heures.</p></div></section></main></div>;
-}
+  const details = [
+    { label: "Prestation", value: item.service },
+    { label: "Montant", value: formatCurrency(item.amountCents) },
+    { label: "Volume", value: item.itemCount ? `${item.itemCount} pièce${item.itemCount === 1 ? "" : "s"}` : item.weightKg ? `${item.weightKg} kg estimés` : "À préciser" },
+    { label: "Collecte", value: formatDate(item.pickupAt, { weekday: "short", day: "numeric", month: "long" }) },
+    { label: "Livraison", value: formatDate(item.deliveryAt, { weekday: "short", day: "numeric", month: "long" }) },
+  ];
 
-function Detail({ icon: Icon, label, value }: { icon: typeof Package; label: string; value: string }) { return <div className="flex items-start gap-3"><Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#99772a]" /><div><p className="text-[10px] font-bold uppercase tracking-wider text-[#9aa1a8]">{label}</p><p className="mt-1 text-sm font-semibold text-[#26384a]">{value}</p></div></div>; }
+  return <div className="min-h-screen bg-paper text-ink">
+    <SiteHeader back={{ href: "/mon-espace", label: "Mes commandes" }} />
+    <main className="mx-auto max-w-5xl px-5 pb-20 pt-10 sm:px-8 md:pt-14">
+      <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+        <div><p className="eyebrow text-gold">Commande du {formatDate(item.createdAt, { day: "numeric", month: "long", year: "numeric" })}</p><h1 className="mt-4 display-lg tabular">{item.orderNumber}</h1></div>
+        <StatusBadge status={item.status} className="w-fit text-xs" />
+      </div>
+
+      <section className="mt-10 rounded-none border border-line bg-card px-5 py-8 sm:px-10">
+        <StatusTrack status={item.status} />
+        <p className="mt-8 border-t border-line pt-5 text-center text-sm text-ink-muted">Prochaine étape : <span className="font-semibold text-forest">{getCustomerNextStep(item.status)}</span></p>
+      </section>
+
+      {operations.data?.length ? <section className="mt-12">
+        <p className="eyebrow text-gold">Organisation confirmée</p><h2 className="mt-3 display-md">Vos prochains créneaux</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">{operations.data.map(operation => <div key={operation.assignment.id} className="rounded-none border border-line bg-card p-5">
+          <div className="flex items-center justify-between gap-3"><p className="font-display text-xl">{operation.assignment.kind === "pickup" ? "Collecte" : "Livraison"}</p><span className="rounded-full border border-gold/40 bg-gold-soft px-2.5 py-1 text-[11px] font-semibold text-warning">{assignmentLabels[operation.assignment.status] ?? "En cours"}</span></div>
+          <div className="mt-4 space-y-2 text-sm"><p className="flex items-center gap-2 font-semibold first-letter:uppercase"><CalendarDays className="h-4 w-4 text-gold" />{formatDate(operation.assignment.scheduledAt, { weekday: "long", day: "numeric", month: "long" })}</p><p className="flex items-center gap-2 text-ink-muted"><Clock3 className="h-4 w-4 text-gold" />{new Date(operation.assignment.scheduledAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}</p><p className="flex items-start gap-2 text-ink-muted"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />{operation.assignment.address}</p></div>
+          {operation.courier && <p className="mt-4 border-t border-line pt-3 text-xs text-ink-muted">Livreur : <span className="font-semibold text-ink">{operation.courier.fullName}</span></p>}
+        </div>)}</div>
+      </section> : null}
+
+      <section className="mt-12 grid gap-10 lg:grid-cols-[1fr_320px]">
+        <div>
+          <h2 className="display-md">Informations</h2>
+          <dl className="mt-5 divide-y divide-line border-y border-line">{details.map(detail => <div key={detail.label} className="flex items-baseline justify-between gap-4 py-4"><dt className="text-sm text-ink-muted">{detail.label}</dt><dd className="text-right text-sm font-semibold tabular">{detail.value}</dd></div>)}</dl>
+          {item.instructions && <p className="mt-6 rounded-none bg-linen/70 p-4 text-sm leading-6 text-ink-muted"><strong className="text-ink">Consignes :</strong> {item.instructions}</p>}
+        </div>
+        <aside className="band-forest h-fit rounded-none p-7 text-white"><p className="eyebrow text-gold-bright">Besoin d’aide ?</p><h2 className="mt-3 font-display text-2xl">Nous restons disponibles.</h2><p className="mt-3 text-sm leading-6 text-white/65">Story’s vous confirme le tarif et le créneau par téléphone ou WhatsApp. Délai indicatif : 72 heures.</p><a href={WHATSAPP_URL} className="mt-6 inline-flex h-11 items-center gap-2 rounded-full bg-gold-bright px-4 text-sm font-bold text-forest-deep hover:bg-white"><MessageCircle className="h-4 w-4" />{CONTACT_PHONE}</a></aside>
+      </section>
+      <p className="mt-12 text-center"><Link href="/mon-espace" className="text-sm font-bold text-forest underline decoration-gold decoration-2 underline-offset-4">Retour à mes commandes</Link></p>
+    </main>
+  </div>;
+}

@@ -3,11 +3,44 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Story’s — système visuel, aligné sur la DA des projets G-TECH / Ghostech :
+ * papier + encre + une couleur de marque, une grotesque à caractère (Bricolage Grotesque) et une mono
+ * (IBM Plex Mono) pour les références. Structure carrée, filets fins, aucune
+ * ombre, aucun flou, aucun dégradé. Seuls les boutons sont des pilules et seuls
+ * les « objets » (l’étiquette de pressing) sont arrondis.
+ */
+
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Palette. Les noms restent ceux utilisés dans les pages. */
+  --color-forest: #00514d; /* vert Story’s : bandes pleines, bouton principal */
+  --color-forest-deep: #00332f;
+  --color-forest-soft: #e2ece9;
+  --color-ink: #121a19;
+  --color-ink-muted: #565f5c; /* texte secondaire sur papier — 6,4:1 */
+  --color-ink-faint: #6f7774; /* méta sur papier — 4,6:1 */
+  --color-gold: #8a6514; /* or en texte sur papier — 5,2:1 */
+  --color-gold-bright: #e8c875; /* or de marque : filets, surlignage, texte sur vert */
+  --color-gold-soft: #f6ecd0;
+  --color-paper: #fbfaf6;
+  --color-linen: #ebe7de; /* « pierre » : fond secondaire */
+  --color-line: #e1ddd3;
+  --color-line-strong: rgb(18 26 25 / 0.28);
+  --color-success: #2f7a55;
+  --color-success-soft: #e3f1e9;
+  --color-warning: #8a5f12;
+  --color-warning-soft: #f8edd2;
+  --color-danger: #a8432f;
+  --color-danger-soft: #f8e8e3;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1.25rem;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -40,98 +73,148 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 :root {
-  --primary: oklch(0.285 0.055 235);
-  --primary-foreground: oklch(0.98 0.012 96);
-  --sidebar-primary: oklch(0.73 0.13 78);
-  --sidebar-primary-foreground: oklch(0.22 0.035 235);
-  --chart-1: oklch(0.73 0.13 78);
-  --chart-2: oklch(0.52 0.09 215);
-  --chart-3: oklch(0.64 0.08 150);
-  --chart-4: oklch(0.6 0.12 35);
-  --chart-5: oklch(0.44 0.07 280);
   --radius: 0.75rem;
-  --background: oklch(0.975 0.012 96);
-  --foreground: oklch(0.23 0.035 235);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.23 0.035 235);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.23 0.035 235);
-  --secondary: oklch(0.94 0.018 96);
-  --secondary-foreground: oklch(0.36 0.035 235);
-  --muted: oklch(0.94 0.018 96);
-  --muted-foreground: oklch(0.52 0.03 235);
-  --accent: oklch(0.94 0.055 85);
-  --accent-foreground: oklch(0.27 0.045 235);
-  --destructive: oklch(0.59 0.18 28);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.89 0.025 96);
-  --input: oklch(0.89 0.025 96);
-  --ring: oklch(0.64 0.12 78);
-  --sidebar: oklch(0.285 0.055 235);
-  --sidebar-foreground: oklch(0.96 0.018 96);
-  --sidebar-accent: oklch(0.36 0.06 235);
-  --sidebar-accent-foreground: oklch(0.98 0.012 96);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.73 0.13 78);
-}
+  --duration-micro: 160ms;
+  --duration-component: 280ms;
+  --duration-reveal: 800ms;
 
-.dark {
-  --background: oklch(0.17 0.03 235);
-  --foreground: oklch(0.95 0.015 96);
-  --card: oklch(0.22 0.035 235);
-  --card-foreground: oklch(0.95 0.015 96);
-  --popover: oklch(0.22 0.035 235);
-  --popover-foreground: oklch(0.95 0.015 96);
-  --secondary: oklch(0.28 0.04 235);
-  --secondary-foreground: oklch(0.82 0.015 96);
-  --muted: oklch(0.28 0.04 235);
-  --muted-foreground: oklch(0.72 0.02 96);
-  --accent: oklch(0.34 0.05 235);
-  --accent-foreground: oklch(0.96 0.018 96);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.73 0.13 78);
-  --sidebar: oklch(0.13 0.025 235);
-  --sidebar-foreground: oklch(0.95 0.015 96);
-  --sidebar-accent: oklch(0.23 0.035 235);
-  --sidebar-accent-foreground: oklch(0.96 0.018 96);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --background: #fbfaf6;
+  --foreground: #121a19;
+  --card: #fbfaf6;
+  --card-foreground: #121a19;
+  --popover: #fbfaf6;
+  --popover-foreground: #121a19;
+  --primary: #00514d;
+  --primary-foreground: #fbfaf6;
+  --secondary: #ebe7de;
+  --secondary-foreground: #121a19;
+  --muted: #ebe7de;
+  --muted-foreground: #565f5c;
+  --accent: #ebe7de;
+  --accent-foreground: #121a19;
+  --destructive: #a8432f;
+  --destructive-foreground: #fbfaf6;
+  --border: #e1ddd3;
+  --input: rgb(18 26 25 / 0.28);
+  --ring: #e8c875;
+  --chart-1: #00514d;
+  --chart-2: #e8c875;
+  --chart-3: #4f8f7a;
+  --chart-4: #c27a52;
+  --chart-5: #6f6a9c;
+  --sidebar: #00332f;
+  --sidebar-foreground: #fbfaf6;
+  --sidebar-primary: #e8c875;
+  --sidebar-primary-foreground: #121a19;
+  --sidebar-accent: rgb(255 255 255 / 0.06);
+  --sidebar-accent-foreground: #fbfaf6;
+  --sidebar-border: rgb(255 255 255 / 0.12);
+  --sidebar-ring: #e8c875;
+  color-scheme: light;
 }
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  html { font-family: "DM Sans", sans-serif; }
+  html { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; scroll-padding-top: 6rem; }
   body { @apply bg-background text-foreground; min-width: 320px; }
-  button, a, input, select, textarea { transition: color 160ms ease-out, background-color 160ms ease-out, border-color 160ms ease-out, box-shadow 160ms ease-out, transform 160ms ease-out; }
-  button:active:not(:disabled) { transform: scale(0.98); }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  button, a, input, select, textarea { transition: color var(--duration-micro) var(--ease-out-quart), background-color var(--duration-micro) var(--ease-out-quart), border-color var(--duration-micro) var(--ease-out-quart), text-decoration-color var(--duration-micro) var(--ease-out-quart); }
   button:not(:disabled), [role="button"]:not([aria-disabled="true"]), [type="button"]:not(:disabled), [type="submit"]:not(:disabled), [type="reset"]:not(:disabled), a[href], select:not(:disabled), input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled) { @apply cursor-pointer; }
 }
 
 @layer components {
   .container { width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
   .flex { min-height: 0; min-width: 0; }
-  .font-display { font-family: "Playfair Display", Georgia, serif; }
-  .soft-card { box-shadow: 0 14px 40px rgba(16, 32, 51, 0.06); }
-  .eyebrow { @apply text-[10px] font-bold uppercase tracking-[0.22em]; }
+
+  /* Mots : gras, légèrement resserrés, serrés. */
+  .font-display { font-family: var(--font-display); font-weight: 700; font-stretch: 92%; letter-spacing: -0.025em; }
+  .display-xl { font-family: var(--font-display); font-weight: 750; font-stretch: 90%; font-size: clamp(2.75rem, 1.5rem + 4.6vw, 6rem); line-height: 0.96; letter-spacing: -0.04em; }
+  .display-lg { font-family: var(--font-display); font-weight: 700; font-stretch: 92%; font-size: clamp(2rem, 1.4rem + 2.4vw, 4rem); line-height: 1; letter-spacing: -0.035em; }
+  .display-md { font-family: var(--font-display); font-weight: 700; font-stretch: 92%; font-size: clamp(1.5rem, 1.3rem + 0.7vw, 2rem); line-height: 1.12; letter-spacing: -0.025em; }
+
+  /* Chiffres : prix, délais, compteurs — coupe condensée d’affiche. */
+  .figure { font-family: var(--font-display); font-weight: 800; font-stretch: 75%; letter-spacing: -0.01em; line-height: 0.95; font-variant-numeric: tabular-nums; }
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Références et codes : numéros de commande, dates techniques. */
+  .meta { font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.4; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* Libellé de section : petites capitales espacées, ouvertes par un filet or. */
+  .eyebrow { display: flex; align-items: center; gap: 0.75rem; font-size: 0.75rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.16em; text-transform: uppercase; }
+  .eyebrow::before { content: ""; flex: none; width: 2rem; height: 1px; background: var(--color-gold-bright); }
+
+  /*
+   * Mot-clé d’un titre (un ou deux par page) : encre sur une bande or posée sur
+   * la ligne de base. Sur fond vert, simplement en or.
+   */
+  .accent-word { color: inherit; background-image: linear-gradient(var(--color-gold-bright), var(--color-gold-bright)); background-repeat: no-repeat; background-position: 0 88%; background-size: 100% 0.3em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .band-forest .accent-word { color: var(--color-gold-bright); background-image: none; }
+
+  /* Bloc encadré : carré, rempli de pierre, filet fin. */
+  .soft-card { background: var(--card); border: 1px solid var(--color-line); }
+  .panel { background: var(--color-linen); border: 1px solid var(--color-line); }
+  .rule { height: 1px; background: var(--color-line); }
+  .rule-gold { height: 1px; background: linear-gradient(90deg, var(--color-gold-bright) 0 2rem, var(--color-line) 2rem); }
+
+  /* Bande pleine vert Story’s (équivalent du thème « encre »). */
+  .band-forest { background: var(--color-forest); color: var(--color-paper); }
+
+  /* Carte interactive : se soulève de 4 px, filet or tiré sur son bord haut. */
+  .card-interactive { position: relative; transition: translate var(--duration-component) var(--ease-out-quart), border-color var(--duration-micro) var(--ease-out-quart); }
+  .card-interactive::before { content: ""; position: absolute; inset: -1px -1px auto; height: 3px; background: var(--color-gold-bright); transform: scaleX(0); transform-origin: left; transition: transform var(--duration-component) var(--ease-out-quart); }
+  .card-interactive:hover, .card-interactive:focus-within { translate: 0 -4px; border-color: var(--color-ink); }
+  .card-interactive:hover::before, .card-interactive:focus-within::before { transform: scaleX(1); }
+
+  /* Lien secondaire : texte souligné d’un filet, qui passe à l’or au survol. */
+  .link-arrow { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; text-decoration-color: var(--color-line-strong); }
+  .link-arrow:hover { text-decoration-color: var(--color-gold-bright); }
+
+  /* Étiquette de pressing : l’objet signature, le seul élément arrondi. */
+  .tag-hole { width: 14px; height: 14px; border-radius: 999px; background: var(--background); box-shadow: inset 0 0 0 1px var(--color-line-strong); }
+
+  .field { @apply h-12 border-line-strong bg-paper shadow-none; }
+
   @media (min-width: 640px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
   @media (min-width: 1024px) { .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; } }
 }
 
-::selection { background: #f4c46d; color: #102033; }
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #f7f6f1; }
-::-webkit-scrollbar-thumb { background: #cfcabf; border: 3px solid #f7f6f1; border-radius: 999px; }
+/*
+ * Formes des composants partagés — hors couche pour primer sur les classes
+ * utilitaires : boutons en pilule, champs à 12 px, blocs carrés.
+ */
+[data-slot="button"] { border-radius: 999px; }
+[data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"] { border-radius: 0.75rem; }
+[data-slot="card"], [data-slot="dialog-content"], [data-slot="select-content"], [data-slot="dropdown-menu-content"], [data-slot="popover-content"] { border-radius: 0; box-shadow: none; }
+
+/* Entrées : une seule progression, courte. */
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise var(--duration-reveal) var(--ease-out-quart) both; }
+.rise-1 { animation-delay: 80ms; }
+.rise-2 { animation-delay: 160ms; }
+.rise-3 { animation-delay: 240ms; }
+.rise-4 { animation-delay: 320ms; }
+
+@keyframes tag-swing { 0% { transform: rotate(-5deg); } 100% { transform: rotate(-2deg); } }
+.tag-swing { transform-origin: 50% 0; animation: tag-swing 1400ms var(--ease-out-quart) both 300ms; }
+
+::selection { background: #e8c875; color: #121a19; }
+:focus-visible { outline: 2px solid #e8c875; outline-offset: 3px; }
 
 /* Validation UX Story's */
-[aria-invalid="true"] {
-  border-color: #c96f5b !important;
-  box-shadow: 0 0 0 3px rgba(201, 111, 91, 0.12);
-}
+[aria-invalid="true"] { border-color: #a8432f !important; box-shadow: 0 0 0 3px rgba(168, 67, 47, 0.12); }
+[aria-invalid="true"]:focus { border-color: #7f3020 !important; box-shadow: 0 0 0 3px rgba(168, 67, 47, 0.18); }
 
-[aria-invalid="true"]:focus {
-  border-color: #9a4d3d !important;
-  box-shadow: 0 0 0 3px rgba(201, 111, 91, 0.18);
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
